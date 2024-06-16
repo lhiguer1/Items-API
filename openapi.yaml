@@ -1,0 +1,102 @@
+openapi: 3.0.3
+info:
+  title: Items API
+  version: 1.0.0
+  description: API for managing items.
+paths:
+  /items:
+    get:
+      summary: Get all items
+      responses:
+        "200":
+          description: A list of items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Item"
+    post:
+      summary: Create a new item
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Item"
+      responses:
+        "201":
+          description: Item created successfully
+        "400":
+          description: Invalid input
+  /items/{id}:
+    get:
+      summary: Get an item by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A single item
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Item"
+        "404":
+          description: Item not found
+    put:
+      summary: Update an item by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Item"
+      responses:
+        "200":
+          description: Item updated successfully
+        "400":
+          description: Invalid input
+        "404":
+          description: Item not found
+    delete:
+      summary: Delete an item by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Item deleted successfully
+        "404":
+          description: Item not found
+components:
+  schemas:
+    Item:
+      type: object
+      required:
+        - id
+        - price
+        - name
+      properties:
+        id:
+          type: string
+          example: "123"
+        price:
+          type: number
+          format: float
+          example: 29.99
+        name:
+          type: string
+          example: ItemName
